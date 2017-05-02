@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es6",
+    "sourceMap": true,
+    "rootDirs": ["."],
+    "experimentalDecorators": true,
+    "baseUrl": "src",
+    "paths": {
+      "~/*": ["*"]
+    },
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "outDir": "dist",
+    "moduleResolution": "node"
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}

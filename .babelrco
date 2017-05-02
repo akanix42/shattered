@@ -1,0 +1,27 @@
+{
+  compact: false,
+  ast: false,
+  babelrc: false,
+  retainLines: true,
+  "presets": [
+    "react",
+    "react-hmre"
+  ],
+  "plugins": [
+    "transform-async-to-generator",
+    "transform-es2015-destructuring",
+    "transform-object-rest-spread",
+    "transform-export-extensions",
+    "syntax-trailing-function-commas",
+    "transform-es2015-modules-commonjs",
+    "transform-decorators-legacy",
+    "transform-class-properties",
+    [
+      "babel-root-import",
+      {
+        "rootPathPrefix": "/",
+        "rootPathSuffix": "app"
+      }
+    ]
+  ]
+}
