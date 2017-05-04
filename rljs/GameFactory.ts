@@ -73,15 +73,22 @@ import generateEmptyLevel from './levelGenerators/emptyLevel';
 import TimeScheduler from 'rljs/systems/TimeScheduler';
 import generateEntity from 'rljs/generators/generateEntity';
 import slowActor from 'rljs/entityTypes/test/slowActor';
+// import BehaviorSystem from 'rljs/systems/BehaviorSystem';
 import BehaviorSystem from 'rljs/systems/BehaviorSystem';
+import PositionComponent from 'rljs/components/PositionComponent';
+
 export default class GameFactory {
   static create() {
     CurrentGame.reset();
     const level = generateEmptyLevel();
     CurrentGame.levelManager.set(level.id, level);
-    CurrentGame.systems.behaviorSystem = new BehaviorSystem();
+    CurrentGame.systems.behaviorSystem = BehaviorSystem.instance;
     const scheduler = CurrentGame.systems.timeScheduler = new TimeScheduler();
     const testEntity = generateEntity(slowActor);
+    testEntity.addComponent(new PositionComponent({ x: 0, y: 0 }, level.id));
+    // (window as any).resetBehaviorSystem = resetBehaviorSystem;
+    // (window as any).behaviorSystem = behaviorSystem;
+    CurrentGame.systems.timeScheduler.run();
     return CurrentGame;
   }
 }

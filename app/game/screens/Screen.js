@@ -17,7 +17,7 @@ export default class Screen {
   render() {
   }
 
-  handleInput() {
+  handleInput(inputType, inputData) {
 
   }
 }

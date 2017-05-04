@@ -1,5 +1,5 @@
 import { createDisplay } from '../display';
-// import inGameScreen from './inGameScreen';
+import inGameScreen from './inGameScreen.ts';
 // import GameGenerator from 'shattered-game/GameGenerator';
 import Screen from './Screen';
 import ROT from 'rot-js';
@@ -23,7 +23,7 @@ class MainMenuScreen extends Screen {
       this.numberOfLevels = data.numberOfLevels;
     });
     
-    newGameCommand();
+    // newGameCommand();
     // postal.subscribe({
     //   topic: 'ui.mainMenu',
     //   callback: (data) => {
@@ -76,7 +76,7 @@ class MainMenuScreen extends Screen {
 function newGameCommand() {
   const game = window.game = GameFactory.create();
   console.log('game!', game);
-  // inGameScreen.init();
+  inGameScreen.init();
   // const gameGenerator = new GameGenerator();
   // const width = 100;
   // const height = 100;
@@ -84,8 +84,8 @@ function newGameCommand() {
   //   numberOfLevels: this.numberOfLevels,
   //   testLevel: this.options
   // });
-  // inGameScreen.load(game);
-  // inGameScreen.show();
+  inGameScreen.load(game);
+  inGameScreen.show();
   //
   // const player = game.entityGenerator.generateByName('player');
   //

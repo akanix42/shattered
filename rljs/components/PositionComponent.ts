@@ -3,6 +3,7 @@ import Component from "./Component";
 import IPoint from 'rljs/interfaces/IPoint';
 
 export default class PositionComponent extends Component {
-  position: IPoint;
-  levelId: number;
+  constructor(public position: IPoint, public levelId: number) {
+    super();
+  }
 }

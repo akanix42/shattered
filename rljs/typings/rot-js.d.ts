@@ -795,7 +795,7 @@ declare module "rot-js" {
 
     function getUniform(): any;
 
-    function getUniformInt(lowerBound: any, upperBound: any): any;
+    function getUniformInt(lowerBound: any, upperBound: any): number;
 
     function getWeightedValue(data: any): any;
 

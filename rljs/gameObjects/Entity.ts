@@ -19,4 +19,13 @@ export default class Entity {
   getComponent<T>(componentType: IComponent<T>): T | undefined {
     return this.components.get(componentType.name) as any as T;
   }
+
+  /**
+   * Used when you know the component must exist
+   * @param componentType
+   * @returns {T}
+   */
+  getKnownComponent<T>(componentType: IComponent<T>): T {
+    return this.components.get(componentType.name) as any as T;
+  }
 }

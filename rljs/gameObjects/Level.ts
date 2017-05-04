@@ -19,7 +19,10 @@ export default class Level {
   }
 
   getTile(point: IPoint) {
-    return this.map[point.x][point.y];
+    const column = this.map[point.x];
+    if (!column)
+      return;
+    return column[point.y];
   }
 }
 

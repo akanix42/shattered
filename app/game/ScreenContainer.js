@@ -19,7 +19,6 @@ export default class ScreenContainer extends React.Component {
   }
 
   render() {
-    console.log(styles)
     return (
       <div id="game" className={styles.container} ref={this._initScreenStack}></div>
     );

@@ -3,6 +3,7 @@ import { IComponent } from './components/Component';
 import Entity from './gameObjects/Entity';
 import TimeScheduler from 'rljs/systems/TimeScheduler';
 import BehaviorSystem from 'rljs/systems/BehaviorSystem';
+import MovementSystem from 'rljs/systems/MovementSystem';
 
 
 class EntityManager {
@@ -30,13 +31,21 @@ class EntityManager {
 
 export const entityManager = new EntityManager();
 export const levelManager: Map<number, Level> = new Map();
-interface ISystems  {
+interface ISystems {
   timeScheduler: TimeScheduler,
   behaviorSystem: BehaviorSystem,
+  movementSystem: MovementSystem,
 }
 export const systems = {} as ISystems; // timeScheduler: undefined
 export function reset() {
   entityManager.clear();
   levelManager.clear();
-
+  BehaviorSystem.reset();
+  MovementSystem.reset();
+}
+export default {
+  entityManager,
+  levelManager,
+  systems,
+  reset,
 }

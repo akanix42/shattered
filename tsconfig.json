@@ -10,6 +10,7 @@
       "~/*": ["app/*"],
       "rljs/*": ["../rljs/*"]
     },
+    "allowJs": true,
     "strictNullChecks": true,
     "noImplicitAny": true,
     "outDir": "dist",

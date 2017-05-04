@@ -2,13 +2,19 @@ import Entity from '../gameObjects/Entity';
 import Signal from '../gameObjects/Signal';
 import Component from 'rljs/components/Component';
 import BehaviorComponent from 'rljs/components/BehaviorComponent';
+import BehaviorSystem from 'rljs/systems/BehaviorSystem';
 
 export enum TimeSpent {
   WaitForSignal = -1,
   RemoveEntry = -2,
   None = 0,
+  Default = 500,
 }
 
+enum HandleTimeSpent {
+  WaitForSignal = -1,
+  Continue = 0,
+}
 interface IEntitySchedule {
   entityId: number
   time: number
@@ -22,6 +28,7 @@ export default class TimeScheduler {
   private timetable: Array<IEntitySchedule> = [];
   private currentTime: number = 0;
   private currentIndex: number = 0;
+  private waitedOnEntry: IEntitySchedule;
 
   constructor() {
     Entity.onComponentAdded.watch((entityId: number, component: Component) => {
@@ -35,6 +42,13 @@ export default class TimeScheduler {
     this.timetable.push({ entityId, time: this.currentTime + timeDelta });
   }
 
+  continue(timeSpentOnAction: number) {
+    if (this.handleTimeSpent(timeSpentOnAction, this.waitedOnEntry) === HandleTimeSpent.WaitForSignal) {
+      return;
+    }
+    this.run();
+  }
+
   run() {
     this.isRunning = true;
     while (this.isRunning) {
@@ -45,19 +59,31 @@ export default class TimeScheduler {
         const entry = this.timetable[i];
         this.currentTime = entry.time;
         this.currentIndex = i;
-        const timeSpentOnAction = TimeScheduler.onAct.dispatch(entry.entityId);
-        if (timeSpentOnAction === TimeSpent.WaitForSignal) {
+
+        const timeSpentOnAction = BehaviorSystem.act(entry.entityId);// TimeScheduler.onAct.dispatch(entry.entityId);
+
+        if (this.handleTimeSpent(timeSpentOnAction, entry) === HandleTimeSpent.WaitForSignal) {
           return;
         }
-        if (timeSpentOnAction !== TimeSpent.RemoveEntry) {
-          this.schedule(entry.entityId, timeSpentOnAction);
-        }
+
         if (!this.isRunning) {
           return;
         }
       }
       this.clean();
     }
+  }
+
+  private handleTimeSpent(timeSpentOnAction: number, entry: IEntitySchedule) {
+    if (timeSpentOnAction === TimeSpent.WaitForSignal) {
+      this.waitedOnEntry = entry;
+      return HandleTimeSpent.WaitForSignal;
+    }
+    if (timeSpentOnAction !== TimeSpent.RemoveEntry) {
+      this.schedule(entry.entityId, timeSpentOnAction);
+    }
+
+    return HandleTimeSpent.Continue;
   }
 
   stop() {
