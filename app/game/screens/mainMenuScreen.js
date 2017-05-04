@@ -23,7 +23,7 @@ class MainMenuScreen extends Screen {
       this.numberOfLevels = data.numberOfLevels;
     });
     
-    
+    newGameCommand();
     // postal.subscribe({
     //   topic: 'ui.mainMenu',
     //   callback: (data) => {
@@ -59,29 +59,6 @@ class MainMenuScreen extends Screen {
 
     return keyMap;
 
-    function newGameCommand() {
-      const game = GameFactory.create();
-      console.log('game!', game);
-      // inGameScreen.init();
-      // const gameGenerator = new GameGenerator();
-      // const width = 100;
-      // const height = 100;
-      // const game = this.game = gameGenerator.generate({
-      //   numberOfLevels: this.numberOfLevels,
-      //   testLevel: this.options
-      // });
-      // inGameScreen.load(game);
-      // inGameScreen.show();
-      //
-      // const player = game.entityGenerator.generateByName('player');
-      //
-      // // TODO re-enable
-      // // const event = new Event(eventTypes.onPosition);
-      // // event.data.destination = game.levels[1].getTileAt({ x: 0, y: 0 });
-      // // player.emit(event);
-      //
-      // game.start();
-    }
     //
     // function loadGameCommand() {
     //   inGameScreen.init();
@@ -96,5 +73,28 @@ class MainMenuScreen extends Screen {
 
 }
 
+function newGameCommand() {
+  const game = window.game = GameFactory.create();
+  console.log('game!', game);
+  // inGameScreen.init();
+  // const gameGenerator = new GameGenerator();
+  // const width = 100;
+  // const height = 100;
+  // const game = this.game = gameGenerator.generate({
+  //   numberOfLevels: this.numberOfLevels,
+  //   testLevel: this.options
+  // });
+  // inGameScreen.load(game);
+  // inGameScreen.show();
+  //
+  // const player = game.entityGenerator.generateByName('player');
+  //
+  // // TODO re-enable
+  // // const event = new Event(eventTypes.onPosition);
+  // // event.data.destination = game.levels[1].getTileAt({ x: 0, y: 0 });
+  // // player.emit(event);
+  //
+  // game.start();
+}
 export default new MainMenuScreen();
 
