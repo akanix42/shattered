@@ -22,6 +22,9 @@ class InGameScreen extends Screen {
     if (this._isInitialized)
       return;
 
+    CurrentGame.onFOVUpdate.watch((tiles: Tile[]) => {
+      this.renderFov(tiles);
+    });
     // postal.subscribe({
     //   topic: 'ui.vision.update',
     //   callback: (data)=> {
@@ -62,7 +65,7 @@ class InGameScreen extends Screen {
     }
   }
 
-  renderFov(fov: any) {
+  renderFov(fov: Tile[]) {
     fov.forEach(this.renderTile.bind(this));
   }
 

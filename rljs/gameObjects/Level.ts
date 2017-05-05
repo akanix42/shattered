@@ -1,11 +1,11 @@
 import Tile from "./Tile";
 import getNextId from 'rljs/idGenerator';
 import IPoint from 'rljs/interfaces/IPoint';
-// import { IPoint } from "./IPoint";
+
 export default class Level {
   static create(size: IPoint) {
     const map = initializeMap(size);
-    const level = new Level(map);
+    const level = new Level(map, size);
     level.id = getNextId();
     // level.map = map;
 
@@ -13,9 +13,12 @@ export default class Level {
   }
 
   id = 0;
+  width: number;
+  height: number;
 
-  private constructor(public map: Tile[][]) {
-
+  private constructor(public map: Tile[][], size: IPoint) {
+    this.width = size.x;
+    this.height = size.y;
   }
 
   getTile(point: IPoint) {
@@ -24,7 +27,9 @@ export default class Level {
       return;
     return column[point.y];
   }
+
 }
+
 
 function initializeMap(size: IPoint) {
   const map: Tile[][] = [];

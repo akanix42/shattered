@@ -17,7 +17,7 @@ export enum MovementResult {
 export default class MovementSystem {
   static onPrepareMove = Signal.create(function (entityId: number, position: IPoint): number { return 0; });
   static onMove = Signal.create(function (entityId: number, position: IPoint): number { return 0; });
-  static onPositioned = Signal.create(function (entity: Entity, newPosition: IPoint, oldPosition: IPoint) { });
+  static onPositioned = Signal.create(function (entityId: number, newPosition: IPoint, oldPosition: IPoint) { });
 
   static instance: MovementSystem;
 
@@ -59,7 +59,7 @@ export default class MovementSystem {
     const oldPosition = positionComponent.position;
     positionComponent.position = targetTile.position;
     targetTile.addEntity(entity);
-    MovementSystem.onPositioned.dispatch(entity, targetTile.position, oldPosition);
+    MovementSystem.onPositioned.dispatch(entity.id, targetTile.position, oldPosition);
   }
 
   private calculateMoveTime(entity: Entity, targetTile: Tile) {

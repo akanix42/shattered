@@ -13,5 +13,5 @@ function generateMap(level: Level) {
   const map = level.map;
   for (let x = 0; x < map.length; x++)
     for (let y = 0, column = map[x]; y < column.length; y++)
-      column[y] = Tile.create(level.id, {x, y}, generateEntity(architecture.dirtFloor));
+      column[y] = Tile.create(level, {x, y}, generateEntity(architecture.dirtFloor));
 }

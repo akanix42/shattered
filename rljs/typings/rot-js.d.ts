@@ -590,9 +590,9 @@ declare module "rot-js" {
     }
 
     class PreciseShadowcasting {
-      constructor(lightPassesCallback: any, options: any);
+      constructor(lightPassesCallback: (x: number, y: number) => void, options?: any);
 
-      compute(x: any, y: any, R: any, callback: any): void;
+      compute(x: number, y: number, radius: number, callback: (x: number, y: number, radius: number, visibility: number) => void): void;
 
     }
 

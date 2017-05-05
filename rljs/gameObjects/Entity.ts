@@ -1,14 +1,17 @@
 import Signal from './Signal';
 import Component, { IComponent } from "../components/Component";
+import Tile from 'rljs/gameObjects/Tile';
 
 export default class Entity {
   static onComponentAdded = Signal.create(function (entityId: number, component: Component) { });
 
   id: number;
   components: Map<string, Component> = new Map;
+  tile: Tile;
 
   constructor() {
     this.id = 0;
+
   }
 
   addComponent(component: Component) {

@@ -5,10 +5,33 @@ import { IComponent } from "../components/Component";
 import Entity from 'rljs/gameObjects/Entity';
 import IPoint from 'rljs/interfaces/IPoint';
 import SpaceComponent, { Space } from 'rljs/components/SpaceComponent';
+import Signal from 'rljs/gameObjects/Signal';
+import Level from 'rljs/gameObjects/Level';
+
+
+class FovCache {
+  visionRange: number = 0;
+  fovAtRadius: Tile[][] = [];
+
+  get(visionRange: number) {
+    if (this.visionRange >= visionRange) {
+      return this.fovAtRadius[Math.min(this.fovAtRadius.length - 1, visionRange)];
+    }
+  }
+
+  set(visionRange: number, fovAtRadius: Tile[][]) {
+    this.visionRange = visionRange;
+    this.fovAtRadius = fovAtRadius;
+  }
+}
+
 export default class Tile {
-  static create(levelId: number, position: IPoint, architecture: Entity) {
+  static onEntityAdded = Signal.create(function (entity: Entity, tile: Tile) { });
+  static onEntityRemoved = Signal.create(function (entity: Entity, tile: Tile) { });
+
+  static create(level: Level, position: IPoint, architecture: Entity) {
     const tile = new Tile;
-    tile.levelId = levelId;
+    tile.level = level;
     tile.position = position;
     tile.architecture = architecture;
     return tile;
@@ -16,12 +39,14 @@ export default class Tile {
 
   entities: number[] = [];
   position: IPoint;
-  private levelId: number;
 
   architecture: Entity;
   ground: Entity[] = [];
   occupant: Entity;
   missile: Entity;
+
+  fovCache: FovCache = new FovCache;
+  level: Level;
 
   private constructor() {
 
@@ -46,6 +71,7 @@ export default class Tile {
         this.missile = entity;
         break;
     }
+    entity.tile = this;
   }
 
   queryEntities<T>(componentType: IComponent<T>) {

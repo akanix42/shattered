@@ -1,16 +1,22 @@
 import Component from "rljs/components/Component";
 
 export interface IStats {
-  movementSpeed: Stat
+  movementSpeed: Stat,
+  visionRange: Stat,
 }
 
 class Stat {
-  value: number
+  value: number = 0;
+
+  get current() {
+    return this.value;
+  }
 }
 
 function getDefaultStats(): IStats {
   return {
-    movementSpeed: new Stat
+    movementSpeed: new Stat,
+    visionRange: new Stat,
   }
 }
 export default class StatsComponent extends Component {
