@@ -1,7 +1,7 @@
 import TimeScheduler, { TimeSpent } from './TimeScheduler';
 import Signal from '../gameObjects/Signal';
 import IStringMap from 'rljs/interfaces/IStringMap';
-import { entityManager, systems } from 'rljs/CurrentGame';
+import currentGame from "rljs/CurrentGame";
 import BehaviorComponent from 'rljs/components/BehaviorComponent';
 import behaviors from './behaviors';
 import Entity from 'rljs/gameObjects/Entity';
@@ -29,7 +29,7 @@ export default class BehaviorSystem {
 
   constructor() {
     TimeScheduler.onAct.watch((entityId): number => {
-      const entity = entityManager.get(entityId);
+      const entity = currentGame.entityManager.get(entityId);
       if (entity === undefined) {
         return TimeSpent.RemoveEntry;
       }
@@ -44,7 +44,7 @@ export default class BehaviorSystem {
   }
 
   act(entityId: number): number {
-    const entity = entityManager.get(entityId);
+    const entity = currentGame.entityManager.get(entityId);
     if (entity === undefined) {
       return TimeSpent.RemoveEntry;
     }
@@ -66,7 +66,7 @@ export default class BehaviorSystem {
     if (result === BehaviorResult.Skipped) {
       return TimeSpent.Default;
     }
-    systems.timeScheduler.continue(result);
+    currentGame.systems.timeScheduler.continue(result);
   }
 }
 

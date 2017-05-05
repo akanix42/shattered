@@ -1,6 +1,5 @@
 import BehaviorSystem, { BehaviorResult } from "rljs/systems/BehaviorSystem";
 import Entity from "rljs/gameObjects/Entity";
-import { entityManager } from "rljs/CurrentGame";
 import PositionComponent from "rljs/components/PositionComponent";
 import { RNG } from "rot-js";
 import MovementSystem, { MovementResult } from "rljs/systems/MovementSystem";

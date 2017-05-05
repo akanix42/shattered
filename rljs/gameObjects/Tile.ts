@@ -1,4 +1,4 @@
-import { entityManager } from '../CurrentGame';
+import currentGame from "rljs/CurrentGame";
 // import { IPoint } from "./IPoint";
 // import { IConstructor } from "./IConstructor";
 import { IComponent } from "../components/Component";
@@ -50,7 +50,7 @@ export default class Tile {
 
   queryEntities<T>(componentType: IComponent<T>) {
     return this.entities
-      .map(entityId => entityManager.getComponent(entityId, componentType))
+      .map(entityId => currentGame.entityManager.getComponent(entityId, componentType))
       .filter(component => component !== undefined);
 
     // create component with reuse:

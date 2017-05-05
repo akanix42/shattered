@@ -4,6 +4,8 @@ import Entity from './gameObjects/Entity';
 import TimeScheduler from 'rljs/systems/TimeScheduler';
 import BehaviorSystem from 'rljs/systems/BehaviorSystem';
 import MovementSystem from 'rljs/systems/MovementSystem';
+import Signal from 'rljs/gameObjects/Signal';
+import Tile from 'rljs/gameObjects/Tile';
 
 
 class EntityManager {
@@ -28,24 +30,30 @@ class EntityManager {
     this.entities.clear();
   }
 }
-
-export const entityManager = new EntityManager();
-export const levelManager: Map<number, Level> = new Map();
 interface ISystems {
   timeScheduler: TimeScheduler,
   behaviorSystem: BehaviorSystem,
   movementSystem: MovementSystem,
 }
-export const systems = {} as ISystems; // timeScheduler: undefined
-export function reset() {
-  entityManager.clear();
-  levelManager.clear();
-  BehaviorSystem.reset();
-  MovementSystem.reset();
+
+class CurrentGame {
+  entityManager: EntityManager;
+  levelManager: Map<number, Level>;
+  systems: ISystems;
+  onFOVUpdate = Signal.create(function (tiles: Tile[]) { });
+
+  constructor() {
+    this.entityManager = new EntityManager();
+    this.levelManager = new Map();
+    this.systems = {} as ISystems;
+  }
+
+  reset() {
+    this.entityManager.clear();
+    this.levelManager.clear();
+    BehaviorSystem.reset();
+    MovementSystem.reset();
+  }
 }
-export default {
-  entityManager,
-  levelManager,
-  systems,
-  reset,
-}
+export default new CurrentGame();
+

@@ -1,6 +1,6 @@
 import Signal from '../gameObjects/Signal';
 import PositionComponent from '../components/PositionComponent';
-import { entityManager } from '../CurrentGame';
+import currentGame from "rljs/CurrentGame";
 import IPoint from 'rljs/interfaces/IPoint';
 
 export default class PositionSystem {
@@ -12,7 +12,7 @@ export default class PositionSystem {
   }
 
   private onPosition(entityId: number, newPosition: IPoint) {
-    const entity = entityManager.get(entityId);
+    const entity = currentGame.entityManager.get(entityId);
     if (!entity) return;
 
     const positionComponent = entity.getComponent(PositionComponent);

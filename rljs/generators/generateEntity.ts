@@ -1,6 +1,6 @@
 import Entity from 'rljs/gameObjects/Entity';
 import { IEntityTypeDescription } from 'rljs/entityTypes/IEntityTypeDescription';
-import { entityManager } from 'rljs/CurrentGame';
+import currentGame from "rljs/CurrentGame";
 import StatsComponent from 'rljs/components/StatsComponent';
 
 export default function generateEntity(description: IEntityTypeDescription) {
@@ -11,7 +11,7 @@ export default function generateEntity(description: IEntityTypeDescription) {
   if (!entity.getComponent(StatsComponent)) {
     entity.addComponent(StatsComponent.createDefault())
   }
-  entityManager.add(entity);
+  currentGame.entityManager.add(entity);
 
   return entity;
 }

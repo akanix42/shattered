@@ -1,6 +1,6 @@
 import Signal from '../gameObjects/Signal';
 
-import { entityManager, levelManager } from "rljs/CurrentGame";
+import currentGame from "rljs/CurrentGame";
 import PositionComponent from "rljs/components/PositionComponent";
 import CollidableComponent from "rljs/components/CollidableComponent";
 import PositionSystem from "rljs/systems/PositionSystem";
@@ -36,7 +36,7 @@ export default class MovementSystem {
       return MovementResult.Canceled;
     }
 
-    const level = levelManager.get(positionComponent.levelId);
+    const level = currentGame.levelManager.get(positionComponent.levelId);
     if (!level) return MovementResult.Canceled;
 
     const targetTile = level.getTile(position);
