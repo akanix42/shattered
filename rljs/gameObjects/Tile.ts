@@ -25,6 +25,41 @@ class FovCache {
   }
 }
 
+interface IEmitter {
+  subscribe(subscriber: any)
+  
+  notify(...args: any[]) {
+  
+  }
+}
+
+class Emitter implements IEmitter {
+  private subscribers: any[] = [];
+  
+  subscribe(subscriber: any) {
+    this.subscribers.push(subscriber);
+  }
+  
+  abstract emit(...args: any[]): void;
+}
+
+class EntityAddedToTileEmitter extends Emitter {
+  emit(tile: Tile) {
+    for (let i = 0; i < this.subscribers.length; 
+      this.subscribers[i].onEntityAddedToTile(tile);
+    }
+  }
+}
+
+class EntityRemovedFromTileEmitter extends Emitter {
+  emit(tile: Tile) {
+    for (let i = 0; i < this.subscribers.length; 
+      this.subscribers[i].onEntityRemovedFromTile(tile);
+    }
+  }
+}
+
+
 export default class Tile {
   static onEntityAdded = Signal.create(function (entity: Entity, tile: Tile) { });
   static onEntityRemoved = Signal.create(function (entity: Entity, tile: Tile) { });
@@ -47,7 +82,10 @@ export default class Tile {
 
   fovCache: FovCache = new FovCache;
   level: Level;
-
+  
+  entityAddedToTileEmitter = new EntityAddedToTileEmitter;
+  
+  
   private constructor() {
 
   }
@@ -72,6 +110,7 @@ export default class Tile {
         break;
     }
     entity.tile = this;
+    entityAddedToTileEmitter.emit(this);
   }
 
   queryEntities<T>(componentType: IComponent<T>) {
@@ -84,4 +123,6 @@ export default class Tile {
     // ComponentCache.get(entityId, componentType) || new componentType()
     // Tile.CollidablesComponent.collidables: number[] = this.queryEntities(CollidableComponent).map(component=>component.entityId)
   }
+  
+
 }
